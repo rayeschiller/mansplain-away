@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Well Actually</title>
+<title>Mansplain Away</title>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -178,13 +178,13 @@ h1 {
 </head>
 <body>
 
-<h1>🚨 Well Actually</h1>
+<h1>🚨 Mansplain Away</h1>
 <p class="subtitle">Press when a man is explaining something to you that you didn't ask for.</p>
 
 <div class="btn-wrap" id="btnWrap">
   <div class="ring"></div>
   <div class="ring-inner"></div>
-  <button class="main-btn" id="btn" onclick="handlePress()">MAKE IT<br>STOP</button>
+  <button class="main-btn" id="btn" aria-label="Generate comeback" onclick="handlePress()">MAKE IT<br>STOP</button>
 </div>
 
 <div class="counter-row">
@@ -198,7 +198,10 @@ h1 {
 </div>
 
 <script>
-let count = 0;
+const COOLDOWN_MS = 2000;
+const STORAGE_KEY = 'mansplain_count';
+const STORAGE_DATE_KEY = 'mansplain_date';
+
 let isLoading = false;
 
 const btn = document.getElementById('btn');
@@ -206,6 +209,19 @@ const card = document.getElementById('card');
 const output = document.getElementById('output');
 const counterEl = document.getElementById('counter');
 const btnWrap = document.getElementById('btnWrap');
+
+// Persist counter per calendar day
+function loadCounter() {
+  const today = new Date().toDateString();
+  if (localStorage.getItem(STORAGE_DATE_KEY) !== today) {
+    localStorage.setItem(STORAGE_DATE_KEY, today);
+    localStorage.setItem(STORAGE_KEY, '0');
+  }
+  return parseInt(localStorage.getItem(STORAGE_KEY) || '0', 10);
+}
+
+let count = loadCounter();
+counterEl.textContent = count;
 
 function spawnSparks() {
   const rect = btn.getBoundingClientRect();
@@ -225,6 +241,7 @@ function spawnSparks() {
 
 function bumpCounter() {
   count++;
+  localStorage.setItem(STORAGE_KEY, String(count));
   counterEl.textContent = count;
   counterEl.classList.add('bump');
   setTimeout(() => counterEl.classList.remove('bump'), 200);
@@ -269,6 +286,7 @@ function speakText(text) {
 async function handlePress() {
   if (isLoading) return;
   isLoading = true;
+  btn.disabled = true;
 
   btn.classList.add('pressed');
   setTimeout(() => btn.classList.remove('pressed'), 200);
@@ -282,24 +300,10 @@ async function handlePress() {
   output.innerHTML = '<div class="loading-dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>';
 
   try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 1000,
-        system: `You generate short, petty, savage one-liner comebacks for a woman to say out loud when a man is mansplaining something to her. The comeback should be:
-- Cutting and witty, not aggressive or mean-spirited
-- Sarcastic but deniable ("I could have meant that nicely")
-- Under 25 words
-- Varied — rotate between: feigning ignorance sarcastically, pointing out the obvious, questioning his credentials, politely implying he should stop, or a deadpan burn
-- No hashtags, no emojis, no quotes around the response, no preamble. Just the line itself.`,
-        messages: [{ role: 'user', content: 'Give me one comeback.' }]
-      })
-    });
-
+    const res = await fetch('/api/comeback', { method: 'POST' });
+    if (!res.ok) throw new Error('Request failed');
     const data = await res.json();
-    const text = data.content?.find(b => b.type === 'text')?.text?.trim() || 'Fascinating. I\'ll pretend I haven\'t known that for years.';
+    const text = data.text || 'Fascinating. I\'ll pretend I haven\'t known that for years.';
     output.innerHTML = `<span class="comeback-text">"${text}"</span>`;
     speakText(text);
   } catch(e) {
@@ -308,7 +312,10 @@ async function handlePress() {
     speakText(fallback);
   }
 
-  isLoading = false;
+  setTimeout(() => {
+    isLoading = false;
+    btn.disabled = false;
+  }, COOLDOWN_MS);
 }
 </script>
 </body>
