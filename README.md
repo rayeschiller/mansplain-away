@@ -1,4 +1,4 @@
-# 🚨 Well Actually
+# 🚨 Mansplain Away
 
 A big red button you press when a man is explaining something to you that you didn't ask for.
 
@@ -26,18 +26,24 @@ Press it. Get a petty, savage AI-generated comeback — read out loud.
 ## Run locally
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/well-actually
-cd well-actually
-open index.html
+git clone https://github.com/YOUR_USERNAME/mansplain-away
+cd mansplain-away
 ```
 
-> The app calls the Anthropic API directly from the browser. For production use, consider proxying through a serverless function to keep your API key private.
+Install the Vercel CLI, then:
+
+```bash
+npm i -g vercel
+echo "ANTHROPIC_API_KEY=your_key_here" > .env.local
+vercel dev
+```
 
 ## Deploy to Vercel
 
 1. Push this repo to GitHub
 2. Go to [vercel.com](https://vercel.com) → New Project → Import repo
-3. Leave all settings default → Deploy
+3. Add environment variable: `ANTHROPIC_API_KEY` = your Anthropic API key
+4. Deploy
 
 Auto-deploys on every push to `main`.
 
