@@ -4,36 +4,233 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mansplain Away</title>
+<link href="https://fonts.googleapis.com/css2?family=Boogaloo&family=Fredoka+One&family=VT323&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
+/* ── THEME VARIABLES ─────────────────────────────── */
+
+[data-theme="retro"] {
+  --bg: #fff9f0;
+  --bg-pattern: radial-gradient(circle, #ffb3c6 1.5px, transparent 1.5px), radial-gradient(circle, #ffb3c6 1.5px, transparent 1.5px);
+  --bg-size: 28px 28px;
+  --bg-pos: 0 0, 14px 14px;
+  --text: #1a1a1a;
+  --title-color: #d1006b;
+  --title-shadow: 3px 3px 0 #ffe066, 5px 5px 0 #ff6bac;
+  --subtitle-color: #888;
+  --btn-bg: radial-gradient(circle at 38% 32%, #ff6bac, #d1006b);
+  --btn-border: #1a1a1a;
+  --btn-shadow: 5px 7px 0 #1a1a1a;
+  --btn-shadow-pressed: 2px 2px 0 #1a1a1a;
+  --btn-color: #fff;
+  --ring-a: #ffe066;
+  --ring-b: #ff6bac;
+  --ring-inner: #fff9f0;
+  --counter-bg: #ffe066;
+  --counter-border: #1a1a1a;
+  --counter-shadow: 3px 3px 0 #1a1a1a;
+  --counter-text: #1a1a1a;
+  --counter-num: #d1006b;
+  --card-bg: #fff;
+  --card-border: #1a1a1a;
+  --card-shadow: 5px 5px 0 #1a1a1a;
+  --card-label: #d1006b;
+  --card-text: #1a1a1a;
+  --dot1: #ff6bac; --dot2: #ffe066; --dot3: #d1006b;
+  --tip-color: #bbb;
+  --tip-hover: #d1006b;
+  --title-font: 'Boogaloo', cursive;
+  --body-font: 'Fredoka One', cursive;
+  --btn-font: 'Boogaloo', cursive;
+}
+
+[data-theme="dark"] {
+  --bg: #0f0f0f;
+  --bg-pattern: none;
+  --bg-size: auto;
+  --bg-pos: 0 0;
+  --text: #fff;
+  --title-color: #e84040;
+  --title-shadow: none;
+  --subtitle-color: #555;
+  --btn-bg: radial-gradient(circle at 38% 32%, #e84040, #9b0000);
+  --btn-border: transparent;
+  --btn-shadow: 0 8px 0 #5a0000, 0 14px 30px rgba(0,0,0,0.6);
+  --btn-shadow-pressed: 0 1px 0 #5a0000, 0 4px 12px rgba(0,0,0,0.5);
+  --btn-color: #fff;
+  --ring-a: #c0392b;
+  --ring-b: #8e0000;
+  --ring-inner: #1a1a1a;
+  --counter-bg: transparent;
+  --counter-border: transparent;
+  --counter-shadow: none;
+  --counter-text: #555;
+  --counter-num: #e84040;
+  --card-bg: #1c1c1c;
+  --card-border: #2e2e2e;
+  --card-shadow: none;
+  --card-label: #e84040;
+  --card-text: #ddd;
+  --dot1: #e84040; --dot2: #e84040; --dot3: #e84040;
+  --tip-color: #444;
+  --tip-hover: #aaa;
+  --title-font: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --body-font: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --btn-font: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+[data-theme="pastel"] {
+  --bg: #f0f4ff;
+  --bg-pattern: repeating-linear-gradient(45deg, #e8d5f5 0px, #e8d5f5 1px, transparent 1px, transparent 16px), repeating-linear-gradient(-45deg, #e8d5f5 0px, #e8d5f5 1px, transparent 1px, transparent 16px);
+  --bg-size: 22px 22px;
+  --bg-pos: 0 0;
+  --text: #3d2c5e;
+  --title-color: #8b5cf6;
+  --title-shadow: 2px 2px 0 #fbb6e8, 4px 4px 0 #c4b5fd;
+  --subtitle-color: #a89cc8;
+  --btn-bg: radial-gradient(circle at 38% 32%, #c084fc, #8b5cf6);
+  --btn-border: #3d2c5e;
+  --btn-shadow: 5px 7px 0 #3d2c5e;
+  --btn-shadow-pressed: 2px 2px 0 #3d2c5e;
+  --btn-color: #fff;
+  --ring-a: #fbb6e8;
+  --ring-b: #c4b5fd;
+  --ring-inner: #f0f4ff;
+  --counter-bg: #fbb6e8;
+  --counter-border: #3d2c5e;
+  --counter-shadow: 3px 3px 0 #3d2c5e;
+  --counter-text: #3d2c5e;
+  --counter-num: #8b5cf6;
+  --card-bg: #fff;
+  --card-border: #3d2c5e;
+  --card-shadow: 5px 5px 0 #3d2c5e;
+  --card-label: #8b5cf6;
+  --card-text: #3d2c5e;
+  --dot1: #c084fc; --dot2: #fbb6e8; --dot3: #8b5cf6;
+  --tip-color: #c4b5fd;
+  --tip-hover: #8b5cf6;
+  --title-font: 'Boogaloo', cursive;
+  --body-font: 'Fredoka One', cursive;
+  --btn-font: 'Boogaloo', cursive;
+}
+
+[data-theme="y2k"] {
+  --bg: #000080;
+  --bg-pattern: repeating-linear-gradient(0deg, rgba(0,255,255,0.07) 0px, rgba(0,255,255,0.07) 1px, transparent 1px, transparent 4px);
+  --bg-size: auto;
+  --bg-pos: 0 0;
+  --text: #00ffff;
+  --title-color: #00ffff;
+  --title-shadow: 0 0 8px #00ffff, 3px 3px 0 #ff00ff;
+  --subtitle-color: #7ec8e3;
+  --btn-bg: radial-gradient(circle at 38% 32%, #ff00ff, #8800cc);
+  --btn-border: #00ffff;
+  --btn-shadow: 0 0 0 3px #ff00ff, 5px 7px 0 rgba(0,0,0,0.5);
+  --btn-shadow-pressed: 0 0 0 3px #ff00ff, 2px 2px 0 rgba(0,0,0,0.5);
+  --btn-color: #ffff00;
+  --ring-a: #00ffff;
+  --ring-b: #ff00ff;
+  --ring-inner: #000080;
+  --counter-bg: #000033;
+  --counter-border: #00ffff;
+  --counter-shadow: 0 0 8px #00ffff;
+  --counter-text: #00ffff;
+  --counter-num: #ff00ff;
+  --card-bg: #000033;
+  --card-border: #00ffff;
+  --card-shadow: 0 0 12px #00ffff;
+  --card-label: #ff00ff;
+  --card-text: #00ffff;
+  --dot1: #00ffff; --dot2: #ff00ff; --dot3: #ffff00;
+  --tip-color: #7ec8e3;
+  --tip-hover: #ff00ff;
+  --title-font: 'VT323', monospace;
+  --body-font: 'VT323', monospace;
+  --btn-font: 'VT323', monospace;
+}
+
+/* ── BASE STYLES ─────────────────────────────────── */
+
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  background: #0f0f0f;
+  font-family: var(--body-font);
+  background-color: var(--bg);
+  background-image: var(--bg-pattern);
+  background-size: var(--bg-size);
+  background-position: var(--bg-pos);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 2rem 1.5rem;
-  color: #fff;
+  color: var(--text);
   overflow-x: hidden;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 h1 {
-  font-size: clamp(1.3rem, 4vw, 1.8rem);
-  font-weight: 800;
+  font-family: var(--title-font);
+  font-size: clamp(2rem, 6vw, 3rem);
+  font-weight: 400;
   margin-bottom: 0.3rem;
   text-align: center;
-  letter-spacing: -0.5px;
+  color: var(--title-color);
+  text-shadow: var(--title-shadow);
+  letter-spacing: 1px;
 }
 
+[data-theme="y2k"] h1 { font-size: clamp(2.5rem, 7vw, 4rem); }
+
 .subtitle {
-  font-size: 0.85rem;
-  color: #666;
-  margin-bottom: 2.5rem;
+  font-family: var(--body-font);
+  font-size: 0.95rem;
+  color: var(--subtitle-color);
+  margin-bottom: 1.5rem;
   text-align: center;
+  letter-spacing: 0.3px;
 }
+
+/* ── THEME SWITCHER ──────────────────────────────── */
+
+.theme-switcher {
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.theme-label {
+  font-family: var(--body-font);
+  font-size: 0.8rem;
+  color: var(--subtitle-color);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.theme-select {
+  font-family: var(--body-font);
+  font-size: 0.85rem;
+  background: var(--counter-bg, var(--bg));
+  color: var(--text);
+  border: 2px solid var(--counter-border, var(--btn-border));
+  border-radius: 999px;
+  padding: 0.25rem 0.8rem;
+  cursor: pointer;
+  outline: none;
+  box-shadow: var(--counter-shadow, none);
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: 1.6rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23888'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.6rem center;
+  transition: all 0.2s;
+}
+
+.theme-select:hover { opacity: 0.85; }
+
+/* ── BUTTON ──────────────────────────────────────── */
 
 .btn-wrap {
   position: relative;
@@ -42,17 +239,18 @@ h1 {
 
 .ring {
   position: absolute;
-  inset: -16px;
+  inset: -22px;
   border-radius: 50%;
-  background: conic-gradient(#c0392b, #8e0000, #c0392b);
+  background: repeating-conic-gradient(var(--ring-a) 0deg 20deg, var(--ring-b) 20deg 40deg);
   z-index: 0;
+  animation: spin-slow 12s linear infinite;
 }
 
 .ring-inner {
   position: absolute;
   inset: -10px;
   border-radius: 50%;
-  background: #1a1a1a;
+  background: var(--ring-inner);
   z-index: 1;
 }
 
@@ -62,55 +260,74 @@ h1 {
   width: 190px;
   height: 190px;
   border-radius: 50%;
-  border: none;
+  border: 5px solid var(--btn-border);
   cursor: pointer;
-  background: radial-gradient(circle at 38% 32%, #e84040, #9b0000);
-  color: #fff;
-  font-size: 1.05rem;
-  font-weight: 900;
-  letter-spacing: 1.5px;
+  background: var(--btn-bg);
+  color: var(--btn-color);
+  font-family: var(--btn-font);
+  font-size: 1.3rem;
+  font-weight: 400;
+  letter-spacing: 2px;
   text-transform: uppercase;
-  line-height: 1.25;
-  box-shadow: 0 8px 0 #5a0000, 0 14px 30px rgba(0,0,0,0.6);
+  line-height: 1.3;
+  box-shadow: var(--btn-shadow);
   transition: top 0.07s, box-shadow 0.07s, transform 0.07s;
-  top: 0;
+  top: 0; left: 0;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
 }
 
+[data-theme="y2k"] .main-btn { font-size: 1.7rem; }
+
 .main-btn:active, .main-btn.pressed {
-  top: 7px;
-  box-shadow: 0 1px 0 #5a0000, 0 4px 12px rgba(0,0,0,0.5);
-  transform: scale(0.96);
+  top: 5px; left: 3px;
+  box-shadow: var(--btn-shadow-pressed);
+  transform: scale(0.97);
 }
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ── COUNTER ─────────────────────────────────────── */
 
 .counter-row {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   margin-bottom: 2rem;
+  background: var(--counter-bg);
+  border: 2px solid var(--counter-border);
+  border-radius: 999px;
+  padding: 0.3rem 1.1rem;
+  box-shadow: var(--counter-shadow);
 }
 
+[data-theme="dark"] .counter-row { border: none; padding: 0; }
+
 .counter-label {
-  font-size: 0.8rem;
-  color: #555;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+  font-family: var(--body-font);
+  font-size: 0.85rem;
+  color: var(--counter-text);
+  letter-spacing: 0.5px;
 }
 
 .counter-num {
-  font-size: 1.6rem;
-  font-weight: 900;
-  color: #e84040;
+  font-family: var(--title-font);
+  font-size: 1.5rem;
+  color: var(--counter-num);
   transition: transform 0.15s;
 }
 
-.counter-num.bump { transform: scale(1.4); }
+.counter-num.bump { transform: scale(1.5) rotate(-5deg); }
+
+/* ── CARD ────────────────────────────────────────── */
 
 .card {
-  background: #1c1c1c;
-  border: 1px solid #2e2e2e;
-  border-radius: 16px;
+  background: var(--card-bg);
+  border: 3px solid var(--card-border);
+  border-radius: 18px;
   padding: 1.4rem 1.6rem;
   max-width: 440px;
   width: 100%;
@@ -119,45 +336,55 @@ h1 {
   flex-direction: column;
   gap: 8px;
   opacity: 0;
-  transform: translateY(8px);
+  transform: translateY(10px) rotate(-1deg);
   transition: opacity 0.25s, transform 0.25s;
+  box-shadow: var(--card-shadow);
 }
 
-.card.show { opacity: 1; transform: translateY(0); }
+[data-theme="dark"] .card { border-radius: 16px; transform: translateY(8px); }
+[data-theme="dark"] .card.show { transform: translateY(0); }
+.card.show { opacity: 1; transform: translateY(0) rotate(-1deg); }
+[data-theme="dark"] .card.show,
+[data-theme="y2k"] .card.show { transform: translateY(0) rotate(0); }
 
 .card-label {
-  font-size: 0.7rem;
-  font-weight: 700;
+  font-family: var(--body-font);
+  font-size: 0.8rem;
   text-transform: uppercase;
-  letter-spacing: 1.2px;
-  color: #e84040;
+  letter-spacing: 1.5px;
+  color: var(--card-label);
 }
 
 .comeback-text {
-  font-size: 1rem;
+  font-family: var(--body-font);
+  font-size: 1.05rem;
   line-height: 1.6;
-  color: #ddd;
-  font-style: italic;
+  color: var(--card-text);
 }
+
+/* ── DOTS ────────────────────────────────────────── */
 
 .loading-dots { display: flex; gap: 6px; align-items: center; padding: 6px 0; }
 .dot {
-  width: 7px; height: 7px; border-radius: 50%; background: #e84040;
+  width: 8px; height: 8px; border-radius: 50%;
   animation: bounce 0.85s infinite ease-in-out;
 }
-.dot:nth-child(2) { animation-delay: 0.15s; }
-.dot:nth-child(3) { animation-delay: 0.3s; }
+.dot:nth-child(1) { background: var(--dot1); }
+.dot:nth-child(2) { background: var(--dot2); animation-delay: 0.15s; }
+.dot:nth-child(3) { background: var(--dot3); animation-delay: 0.3s; }
 @keyframes bounce {
   0%,80%,100% { transform:scale(0.55); opacity:0.35; }
   40% { transform:scale(1); opacity:1; }
 }
 
+/* ── ANIMATIONS ──────────────────────────────────── */
+
 @keyframes shake {
-  0%,100% { transform: translateX(0); }
-  15% { transform: translateX(-10px) rotate(-2deg); }
-  30% { transform: translateX(10px) rotate(2deg); }
-  45% { transform: translateX(-8px); }
-  60% { transform: translateX(8px); }
+  0%,100% { transform: translateX(0) rotate(0); }
+  15% { transform: translateX(-10px) rotate(-3deg); }
+  30% { transform: translateX(10px) rotate(3deg); }
+  45% { transform: translateX(-8px) rotate(-2deg); }
+  60% { transform: translateX(8px) rotate(2deg); }
   75% { transform: translateX(-4px); }
   90% { transform: translateX(4px); }
 }
@@ -167,33 +394,692 @@ h1 {
 .spark {
   position: fixed;
   pointer-events: none;
-  border-radius: 50%;
   animation: sparkfly 0.7s ease-out forwards;
 }
 @keyframes sparkfly {
-  0% { opacity: 1; transform: translate(0,0) scale(1); }
-  100% { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(0.2); }
+  0% { opacity: 1; transform: translate(0,0) scale(1) rotate(0deg); }
+  100% { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(0.2) rotate(180deg); }
 }
+
+/* ── TIP ─────────────────────────────────────────── */
 
 .tip-btn {
   position: fixed;
   bottom: 1.2rem;
   left: 50%;
   transform: translateX(-50%);
-  font-size: 0.75rem;
-  color: #555;
+  font-family: var(--body-font);
+  font-size: 0.8rem;
+  color: var(--tip-color);
   text-decoration: none;
   letter-spacing: 0.5px;
   transition: color 0.2s;
   white-space: nowrap;
 }
-.tip-btn:hover { color: #aaa; }
+.tip-btn:hover { color: var(--tip-hover); }
+
+/* ── STEALTH TOGGLE ──────────────────────────────── */
+
+.stealth-toggle {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 1.3rem;
+  cursor: pointer;
+  opacity: 0.25;
+  transition: opacity 0.2s;
+  z-index: 50;
+  line-height: 1;
+  padding: 4px;
+}
+.stealth-toggle:hover { opacity: 0.8; }
+.stealth-toggle.active { opacity: 1; }
+
+/* ── STEALTH OVERLAY ─────────────────────────────── */
+
+.stealth-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  overflow-y: auto;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+.stealth-overlay.visible {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* gotcha flash */
+.gotcha-flash {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  background: rgba(0,0,0,0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 4rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s;
+}
+.gotcha-flash.show { opacity: 1; pointer-events: all; }
+
+/* ── DISGUISE: YOUTUBE ───────────────────────────── */
+
+.dsg-yt {
+  background: #fff;
+  font-family: 'Roboto', Arial, sans-serif;
+  min-height: 100vh;
+  color: #0f0f0f;
+}
+
+.dsg-yt-header {
+  background: #fff;
+  border-bottom: 1px solid #e5e5e5;
+  padding: 0.6rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.dsg-yt-logo {
+  font-weight: 900;
+  font-size: 1.25rem;
+  color: #ff0000;
+  letter-spacing: -0.5px;
+  white-space: nowrap;
+}
+.dsg-yt-logo span { color: #0f0f0f; }
+
+.dsg-yt-search {
+  flex: 1;
+  display: flex;
+  max-width: 480px;
+}
+.dsg-yt-search input {
+  flex: 1;
+  border: 1px solid #ccc;
+  border-right: none;
+  border-radius: 20px 0 0 20px;
+  padding: 0.4rem 1rem;
+  font-size: 0.9rem;
+  outline: none;
+  color: #0f0f0f;
+  background: #fff;
+}
+.dsg-yt-search button {
+  background: #f8f8f8;
+  border: 1px solid #ccc;
+  border-radius: 0 20px 20px 0;
+  padding: 0.4rem 1rem;
+  cursor: default;
+  font-size: 0.9rem;
+}
+
+.dsg-yt-body { padding: 1rem; max-width: 900px; margin: 0 auto; }
+
+.dsg-yt-player {
+  background: #000;
+  width: 100%;
+  aspect-ratio: 16/9;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  margin-bottom: 0.8rem;
+}
+.dsg-yt-player:hover .dsg-yt-playbtn { transform: scale(1.1); }
+
+.dsg-yt-playbtn {
+  width: 68px;
+  height: 48px;
+  background: rgba(255,0,0,0.9);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s;
+}
+.dsg-yt-playbtn::after {
+  content: '';
+  border-style: solid;
+  border-width: 10px 0 10px 20px;
+  border-color: transparent transparent transparent #fff;
+  margin-left: 4px;
+}
+
+.dsg-yt-badge {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background: rgba(0,0,0,0.8);
+  color: #fff;
+  font-size: 0.75rem;
+  padding: 2px 5px;
+  border-radius: 3px;
+  font-family: Arial, sans-serif;
+}
+
+.dsg-yt-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  line-height: 1.4;
+  margin-bottom: 0.4rem;
+  cursor: pointer;
+  color: #0f0f0f;
+}
+.dsg-yt-title:hover { color: #065fd4; }
+
+.dsg-yt-channel {
+  font-size: 0.85rem;
+  color: #606060;
+  margin-bottom: 0.6rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.dsg-yt-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #e0e0e0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #555;
+  flex-shrink: 0;
+}
+.dsg-yt-sub-btn {
+  margin-left: auto;
+  background: #0f0f0f;
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  padding: 0.4rem 1rem;
+  font-size: 0.85rem;
+  cursor: default;
+  font-weight: 600;
+}
+
+.dsg-yt-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 0.6rem;
+}
+.dsg-yt-action-btn {
+  background: #f2f2f2;
+  border: none;
+  border-radius: 20px;
+  padding: 0.4rem 1rem;
+  font-size: 0.85rem;
+  cursor: default;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: Arial, sans-serif;
+  color: #0f0f0f;
+}
+
+.dsg-yt-related {
+  margin-top: 1.5rem;
+  border-top: 1px solid #e5e5e5;
+  padding-top: 1rem;
+}
+.dsg-yt-related-title { font-size: 0.85rem; color: #606060; margin-bottom: 0.5rem; }
+.dsg-yt-thumb-row {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+.dsg-yt-thumb-mini {
+  width: 120px;
+  height: 68px;
+  background: #e0e0e0;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+.dsg-yt-thumb-info { font-size: 0.8rem; color: #606060; line-height: 1.4; }
+.dsg-yt-thumb-info strong { color: #0f0f0f; display: block; margin-bottom: 2px; }
+
+/* ── DISGUISE: PODCAST ───────────────────────────── */
+
+.dsg-pod {
+  background: #121212;
+  font-family: 'Circular', 'Helvetica Neue', Arial, sans-serif;
+  min-height: 100vh;
+  color: #fff;
+}
+
+.dsg-pod-header {
+  background: #121212;
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid #282828;
+}
+.dsg-pod-logo {
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: #1db954;
+  letter-spacing: -0.5px;
+}
+
+.dsg-pod-body { padding: 2rem 1.5rem; max-width: 600px; margin: 0 auto; }
+
+.dsg-pod-art-row {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+}
+.dsg-pod-art {
+  width: 130px;
+  height: 130px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+}
+.dsg-pod-info { flex: 1; }
+.dsg-pod-show { font-size: 0.75rem; color: #b3b3b3; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+.dsg-pod-ep-title { font-size: 1.1rem; font-weight: 700; line-height: 1.4; margin-bottom: 6px; }
+.dsg-pod-ep-num { font-size: 0.8rem; color: #1db954; margin-bottom: 8px; }
+.dsg-pod-date { font-size: 0.78rem; color: #b3b3b3; }
+
+.dsg-pod-desc {
+  font-size: 0.85rem;
+  color: #b3b3b3;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.dsg-pod-player {
+  background: #282828;
+  border-radius: 12px;
+  padding: 1.2rem;
+}
+.dsg-pod-progress-bar {
+  background: #535353;
+  border-radius: 3px;
+  height: 4px;
+  margin-bottom: 6px;
+  position: relative;
+  overflow: hidden;
+}
+.dsg-pod-progress-fill {
+  background: #fff;
+  height: 100%;
+  width: 0%;
+  border-radius: 3px;
+}
+.dsg-pod-times {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.7rem;
+  color: #b3b3b3;
+  margin-bottom: 1rem;
+}
+.dsg-pod-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+}
+.dsg-pod-skip {
+  background: none;
+  border: none;
+  color: #b3b3b3;
+  font-size: 0.75rem;
+  cursor: default;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+.dsg-pod-skip span { font-size: 1.2rem; }
+.dsg-pod-play {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #fff;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.1s, background 0.1s;
+}
+.dsg-pod-play:hover { transform: scale(1.06); background: #f0f0f0; }
+.dsg-pod-play::after {
+  content: '';
+  border-style: solid;
+  border-width: 10px 0 10px 18px;
+  border-color: transparent transparent transparent #121212;
+  margin-left: 4px;
+}
+
+/* ── DISGUISE: REDDIT ────────────────────────────── */
+
+.dsg-reddit {
+  background: #dae0e6;
+  font-family: -apple-system, BlinkMacSystemFont, 'IBM Plex Sans', sans-serif;
+  min-height: 100vh;
+  color: #1c1c1c;
+}
+
+.dsg-reddit-header {
+  background: #fff;
+  border-bottom: 1px solid #edeff1;
+  padding: 0.5rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.dsg-reddit-logo {
+  font-weight: 900;
+  font-size: 1.1rem;
+  color: #ff4500;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.dsg-reddit-logo-circle {
+  width: 28px;
+  height: 28px;
+  background: #ff4500;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 0.7rem;
+}
+
+.dsg-reddit-body { max-width: 740px; margin: 0 auto; padding: 1rem; }
+
+.dsg-reddit-sub-header {
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 0.6rem 1rem;
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+}
+.dsg-reddit-sub-icon {
+  width: 32px;
+  height: 32px;
+  background: #ff4500;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 0.8rem;
+  flex-shrink: 0;
+}
+.dsg-reddit-sub-name { font-weight: 700; }
+.dsg-reddit-sub-members { color: #878a8c; font-size: 0.78rem; }
+
+.dsg-reddit-post {
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  display: flex;
+  gap: 0;
+}
+
+.dsg-reddit-votes {
+  background: #f8f9fa;
+  border-radius: 4px 0 0 4px;
+  padding: 0.5rem 0.4rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  min-width: 36px;
+}
+.dsg-reddit-vote-btn {
+  background: none;
+  border: none;
+  color: #878a8c;
+  font-size: 1.1rem;
+  cursor: default;
+  padding: 2px;
+  line-height: 1;
+}
+.dsg-reddit-vote-count { font-size: 0.8rem; font-weight: 700; color: #1c1c1c; }
+
+.dsg-reddit-content { padding: 0.75rem; flex: 1; }
+
+.dsg-reddit-flair {
+  display: inline-block;
+  background: #46d160;
+  color: #fff;
+  font-size: 0.7rem;
+  padding: 2px 7px;
+  border-radius: 3px;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+.dsg-reddit-post-meta {
+  font-size: 0.72rem;
+  color: #878a8c;
+  margin-bottom: 5px;
+}
+.dsg-reddit-post-meta a { color: #0079d3; text-decoration: none; }
+
+.dsg-reddit-post-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1.4;
+  margin-bottom: 8px;
+  cursor: pointer;
+  color: #1c1c1c;
+}
+.dsg-reddit-post-title:hover { color: #0079d3; }
+
+.dsg-reddit-awards {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 6px;
+  flex-wrap: wrap;
+}
+.dsg-reddit-award {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  background: #f6f7f8;
+  border-radius: 3px;
+  padding: 2px 5px;
+  font-size: 0.72rem;
+  color: #1c1c1c;
+}
+
+.dsg-reddit-actions {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+.dsg-reddit-action {
+  background: none;
+  border: none;
+  font-size: 0.75rem;
+  color: #878a8c;
+  font-weight: 700;
+  padding: 5px 6px;
+  border-radius: 2px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.dsg-reddit-action:hover { background: #e8e8e8; color: #1c1c1c; }
+.dsg-reddit-action.comments { cursor: pointer; }
+
+.dsg-reddit-preview {
+  background: #f6f7f8;
+  border-left: 3px solid #edeff1;
+  padding: 0.6rem 0.8rem;
+  font-size: 0.85rem;
+  color: #1c1c1c;
+  margin-bottom: 8px;
+  border-radius: 2px;
+  line-height: 1.5;
+}
+
+/* ── DISGUISE: QUIZ ──────────────────────────────── */
+
+.dsg-quiz {
+  background: #f7f7f7;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  min-height: 100vh;
+  color: #1a1a1a;
+}
+
+.dsg-quiz-header {
+  background: #e21c3d;
+  padding: 0.7rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.dsg-quiz-logo {
+  font-weight: 900;
+  font-size: 1.3rem;
+  color: #fff;
+  letter-spacing: -0.5px;
+}
+.dsg-quiz-logo span { color: #ffdd00; }
+
+.dsg-quiz-body { max-width: 680px; margin: 0 auto; padding: 1.5rem 1rem; }
+
+.dsg-quiz-category {
+  display: inline-block;
+  background: #e21c3d;
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 3px 8px;
+  border-radius: 3px;
+  margin-bottom: 0.8rem;
+}
+
+.dsg-quiz-headline {
+  font-size: 1.7rem;
+  font-weight: 900;
+  line-height: 1.25;
+  margin-bottom: 0.5rem;
+  color: #1a1a1a;
+}
+
+.dsg-quiz-subhead {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 1.2rem;
+  line-height: 1.5;
+}
+
+.dsg-quiz-stats {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.8rem;
+  color: #888;
+}
+.dsg-quiz-stat strong { color: #1a1a1a; font-size: 1rem; display: block; }
+
+.dsg-quiz-preview {
+  background: #fff;
+  border: 2px solid #eee;
+  border-radius: 8px;
+  padding: 1.2rem;
+  margin-bottom: 1.2rem;
+}
+.dsg-quiz-preview-q {
+  font-weight: 700;
+  margin-bottom: 0.6rem;
+  font-size: 0.95rem;
+}
+.dsg-quiz-preview-opts {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.dsg-quiz-preview-opt {
+  background: #f7f7f7;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 0.5rem 0.8rem;
+  font-size: 0.85rem;
+  color: #555;
+}
+
+.dsg-quiz-start {
+  width: 100%;
+  background: #e21c3d;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 1rem;
+  font-size: 1.1rem;
+  font-weight: 900;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  transition: background 0.15s, transform 0.1s;
+  text-transform: uppercase;
+}
+.dsg-quiz-start:hover { background: #c01830; transform: translateY(-1px); }
+.dsg-quiz-start:active { transform: translateY(0); }
+
+.dsg-quiz-note {
+  text-align: center;
+  font-size: 0.75rem;
+  color: #aaa;
+  margin-top: 0.5rem;
+}
+
 </style>
 </head>
 <body>
 
 <h1>🚨 Mansplain Away</h1>
 <p class="subtitle">Press when a man is explaining something to you that you didn't ask for.</p>
+
+<div class="theme-switcher">
+  <span class="theme-label">Theme:</span>
+  <select class="theme-select" id="themePicker" onchange="setTheme(this.value)">
+    <option value="retro">🌸 Retro</option>
+    <option value="dark">🖤 Dark</option>
+    <option value="pastel">💜 Pastel</option>
+    <option value="y2k">💾 Y2K</option>
+  </select>
+</div>
 
 <div class="btn-wrap" id="btnWrap">
   <div class="ring"></div>
@@ -213,20 +1099,88 @@ h1 {
 
 <a class="tip-btn" href="https://venmo.com/u/raye-schiller" target="_blank" rel="noopener">💸 tip the creator</a>
 
+<!-- Stealth toggle (subtle, top-right corner) -->
+<button class="stealth-toggle" id="stealthToggle" onclick="toggleStealth()" title="Stealth mode">🥷</button>
+
+<!-- Stealth overlay -->
+<div class="stealth-overlay" id="stealthOverlay">
+  <div id="stealthContent"></div>
+</div>
+
+<!-- Gotcha flash -->
+<div class="gotcha-flash" id="gotchaFlash">😂</div>
+
 <script>
 const COOLDOWN_MS = 2000;
 const STORAGE_KEY = 'mansplain_count';
 const STORAGE_DATE_KEY = 'mansplain_date';
+const THEMES = ['retro', 'dark', 'pastel', 'y2k'];
+
+const COMEBACKS = [
+  "Wow, I had no idea you were an expert on literally everything - when did you get that degree?",
+  "Oh wow, I never would have figured that out without a man to explain it to me.",
+  "Oh wow, I never would have thought of that obvious solution myself, thank you so much for enlightening me.",
+  "That's so interesting, I actually have a PhD in this but please, go on.",
+  "Thank you for simplifying that. I was really struggling with the concept of existing.",
+  "I'm sorry, I must have left my 'please explain this to me' sign on by accident.",
+  "Oh I see, so THAT'S what words mean. Thank you.",
+  "You must be exhausted carrying around all that unsolicited expertise.",
+  "Bold of you to assume I've never encountered a fact before.",
+  "Sorry, I zoned out — were you still explaining, or did you just finish saving my life?",
+  "Fascinating. My therapist is going to love hearing about this moment.",
+  "Wow. You're like Wikipedia but way more confident and way less accurate.",
+  "I genuinely cannot tell if you're being helpful or if this is a bit.",
+  "Please, keep going. I'm writing a book called 'Things I Did Not Ask For.'",
+  "Thank you. I'll file that under 'information that was not requested.'",
+  "Do you do this for everyone or am I just lucky?",
+  "The confidence! The range! The complete lack of being asked!",
+  "I have a masters degree in this but sure, what were you saying?",
+  "Oh thank god you were here. I was just about to figure it out myself.",
+  "Wow, you're so brave for explaining this to someone who didn't ask.",
+];
 
 let isLoading = false;
+let lastIdx = -1;
+let stealthActive = false;
+let lastDisguiseIdx = -1;
+
+function pickComeback() {
+  let idx;
+  do { idx = Math.floor(Math.random() * COMEBACKS.length); } while (idx === lastIdx && COMEBACKS.length > 1);
+  lastIdx = idx;
+  return COMEBACKS[idx];
+}
 
 const btn = document.getElementById('btn');
 const card = document.getElementById('card');
 const output = document.getElementById('output');
 const counterEl = document.getElementById('counter');
 const btnWrap = document.getElementById('btnWrap');
+const themePicker = document.getElementById('themePicker');
+const stealthToggle = document.getElementById('stealthToggle');
+const stealthOverlay = document.getElementById('stealthOverlay');
+const stealthContent = document.getElementById('stealthContent');
+const gotchaFlash = document.getElementById('gotchaFlash');
 
-// Persist counter per calendar day
+// ── THEME ───────────────────────────────────────────
+function getThemeFromURL() {
+  const params = new URLSearchParams(window.location.search);
+  const t = params.get('theme');
+  return THEMES.includes(t) ? t : 'retro';
+}
+
+function setTheme(theme) {
+  if (!THEMES.includes(theme)) theme = 'retro';
+  document.body.setAttribute('data-theme', theme);
+  themePicker.value = theme;
+  const url = new URL(window.location);
+  url.searchParams.set('theme', theme);
+  window.history.replaceState({}, '', url);
+}
+
+setTheme(getThemeFromURL());
+
+// ── COUNTER ─────────────────────────────────────────
 function loadCounter() {
   const today = new Date().toDateString();
   if (localStorage.getItem(STORAGE_DATE_KEY) !== today) {
@@ -239,17 +1193,27 @@ function loadCounter() {
 let count = loadCounter();
 counterEl.textContent = count;
 
+// ── SPARKS ──────────────────────────────────────────
 function spawnSparks() {
   const rect = btn.getBoundingClientRect();
   const cx = rect.left + rect.width / 2;
   const cy = rect.top + rect.height / 2;
-  for (let i = 0; i < 14; i++) {
+  const theme = document.body.getAttribute('data-theme');
+  const sparkSets = {
+    retro:  { shapes: ['★','✦','♥','✿','●','▲'], colors: ['#ff6bac','#ffe066','#d1006b','#ff9500','#b3f0ff'] },
+    dark:   { shapes: ['●','▪','◆','▲'],          colors: ['#e84040','#ff6b6b','#ffcc00','#ff8c00'] },
+    pastel: { shapes: ['★','✦','♥','✿','◯','✤'], colors: ['#c084fc','#fbb6e8','#ffe066','#6ee7f7','#8b5cf6'] },
+    y2k:    { shapes: ['★','✦','◆','▲','●','✖'], colors: ['#00ffff','#ff00ff','#ffff00','#ff6600','#ffffff'] },
+  };
+  const { shapes, colors } = sparkSets[theme] || sparkSets.retro;
+  for (let i = 0; i < 16; i++) {
     const s = document.createElement('div');
     s.className = 'spark';
-    const angle = (i / 14) * 2 * Math.PI + Math.random() * 0.4;
-    const dist = 60 + Math.random() * 60;
-    const size = 5 + Math.random() * 6;
-    s.style.cssText = `left:${cx}px;top:${cy}px;width:${size}px;height:${size}px;background:${['#e84040','#ff6b6b','#ffcc00','#ff8c00'][Math.floor(Math.random()*4)]};--tx:${Math.cos(angle)*dist}px;--ty:${Math.sin(angle)*dist}px;`;
+    const angle = (i / 16) * 2 * Math.PI + Math.random() * 0.4;
+    const dist = 70 + Math.random() * 70;
+    const size = 10 + Math.random() * 10;
+    s.style.cssText = `left:${cx}px;top:${cy}px;font-size:${size}px;color:${colors[Math.floor(Math.random()*colors.length)]};line-height:1;--tx:${Math.cos(angle)*dist}px;--ty:${Math.sin(angle)*dist}px;`;
+    s.textContent = shapes[Math.floor(Math.random() * shapes.length)];
     document.body.appendChild(s);
     s.addEventListener('animationend', () => s.remove());
   }
@@ -260,7 +1224,7 @@ function bumpCounter() {
   localStorage.setItem(STORAGE_KEY, String(count));
   counterEl.textContent = count;
   counterEl.classList.add('bump');
-  setTimeout(() => counterEl.classList.remove('bump'), 200);
+  setTimeout(() => counterEl.classList.remove('bump'), 250);
 }
 
 function shakeButton() {
@@ -299,7 +1263,7 @@ function speakText(text) {
   speechSynthesis.getVoices().length ? trySpeak() : speechSynthesis.addEventListener('voiceschanged', trySpeak, { once: true });
 }
 
-async function handlePress() {
+function handlePress() {
   if (isLoading) return;
   isLoading = true;
   btn.disabled = true;
@@ -315,23 +1279,265 @@ async function handlePress() {
   card.classList.add('show');
   output.innerHTML = '<div class="loading-dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>';
 
-  try {
-    const res = await fetch('/api/comeback', { method: 'POST' });
-    if (!res.ok) throw new Error('Request failed');
-    const data = await res.json();
-    const text = data.text || 'Fascinating. I\'ll pretend I haven\'t known that for years.';
-    output.innerHTML = `<span class="comeback-text">"${text}"</span>`;
-    speakText(text);
-  } catch(e) {
-    const fallback = 'Fascinating. I\'ll pretend I haven\'t known that for years.';
-    output.innerHTML = `<span class="comeback-text">"${fallback}"</span>`;
-    speakText(fallback);
-  }
+  const text = pickComeback();
+  output.innerHTML = `<span class="comeback-text">"${text}"</span>`;
+  speakText(text);
 
   setTimeout(() => {
     isLoading = false;
     btn.disabled = false;
   }, COOLDOWN_MS);
+}
+
+// ── STEALTH MODE ─────────────────────────────────────
+
+const DISGUISES = [
+  {
+    title: 'Women Drivers Exposed - YouTube',
+    render: () => `
+    <div class="dsg-yt">
+      <div class="dsg-yt-header">
+        <div class="dsg-yt-logo">▶<span>ouTube</span></div>
+        <div class="dsg-yt-search">
+          <input type="text" value="women drivers exposed truth" readonly>
+          <button>🔍</button>
+        </div>
+      </div>
+      <div class="dsg-yt-body">
+        <div class="dsg-yt-player" onclick="stealthPress()">
+          <div class="dsg-yt-playbtn"></div>
+          <div class="dsg-yt-badge">14:32</div>
+        </div>
+        <div class="dsg-yt-title" onclick="stealthPress()">EXPOSING the truth about women drivers (MUST WATCH)</div>
+        <div class="dsg-yt-channel">
+          <div class="dsg-yt-avatar">BT</div>
+          <div>
+            <div style="font-weight:600;font-size:0.88rem;">BroTruth TV</div>
+            <div style="color:#606060;font-size:0.78rem;">2.4M subscribers</div>
+          </div>
+          <button class="dsg-yt-sub-btn">Subscribe</button>
+        </div>
+        <div style="font-size:0.82rem;color:#606060;margin-bottom:6px;">892K views &nbsp;•&nbsp; 3 days ago</div>
+        <div class="dsg-yt-actions">
+          <button class="dsg-yt-action-btn">👍 48K</button>
+          <button class="dsg-yt-action-btn">👎</button>
+          <button class="dsg-yt-action-btn">↗ Share</button>
+          <button class="dsg-yt-action-btn">+ Save</button>
+        </div>
+        <div class="dsg-yt-related">
+          <div class="dsg-yt-related-title">Up next</div>
+          <div class="dsg-yt-thumb-row">
+            <div class="dsg-yt-thumb-mini"></div>
+            <div class="dsg-yt-thumb-info"><strong>I took a driving test to prove my point (not clickbait)</strong>ManLogic • 1.1M views • 1 week ago</div>
+          </div>
+        </div>
+      </div>
+    </div>`
+  },
+  {
+    title: 'The Joe Rogan Experience - Spotify',
+    render: () => `
+    <div class="dsg-pod">
+      <div class="dsg-pod-header">
+        <div class="dsg-pod-logo">Spotify</div>
+      </div>
+      <div class="dsg-pod-body">
+        <div class="dsg-pod-art-row">
+          <div class="dsg-pod-art">🎙️</div>
+          <div class="dsg-pod-info">
+            <div class="dsg-pod-show">The Joe Rogan Experience</div>
+            <div class="dsg-pod-ep-title">#2187 – Elon Musk & Jordan Peterson</div>
+            <div class="dsg-pod-ep-num">FULL 4-HOUR EPISODE</div>
+            <div class="dsg-pod-date">Released Dec 14, 2024 &nbsp;•&nbsp; 4 hr 2 min</div>
+          </div>
+        </div>
+        <div class="dsg-pod-desc">
+          Elon and Jordan sit down with Joe for the most unfiltered conversation of the year. They cover AI, free speech, the simulation, raising sons, what women don't understand about risk, and why the world needs more men who aren't afraid to say hard truths. This one goes places.
+        </div>
+        <div class="dsg-pod-player">
+          <div class="dsg-pod-progress-bar"><div class="dsg-pod-progress-fill"></div></div>
+          <div class="dsg-pod-times"><span>0:00</span><span>4:02:11</span></div>
+          <div class="dsg-pod-controls">
+            <button class="dsg-pod-skip"><span>⏮</span>15s</button>
+            <button class="dsg-pod-play" onclick="stealthPress()"></button>
+            <button class="dsg-pod-skip"><span>⏭</span>15s</button>
+          </div>
+        </div>
+      </div>
+    </div>`
+  },
+  {
+    title: 'AITA Reddit Post',
+    render: () => `
+    <div class="dsg-reddit">
+      <div class="dsg-reddit-header">
+        <div class="dsg-reddit-logo">
+          <div class="dsg-reddit-logo-circle">👽</div>
+          reddit
+        </div>
+      </div>
+      <div class="dsg-reddit-body">
+        <div class="dsg-reddit-sub-header">
+          <div class="dsg-reddit-sub-icon">⚖️</div>
+          <div>
+            <div class="dsg-reddit-sub-name">r/AmItheAsshole</div>
+            <div class="dsg-reddit-sub-members">4.2M members &nbsp;•&nbsp; 12.4K online</div>
+          </div>
+        </div>
+        <div class="dsg-reddit-post">
+          <div class="dsg-reddit-votes">
+            <button class="dsg-reddit-vote-btn">▲</button>
+            <span class="dsg-reddit-vote-count">47.2k</span>
+            <button class="dsg-reddit-vote-btn">▼</button>
+          </div>
+          <div class="dsg-reddit-content">
+            <div class="dsg-reddit-flair">✓ Not the A-hole</div>
+            <div class="dsg-reddit-post-meta">
+              Posted by <a href="#">u/NotTheAsshole_Actually</a> &nbsp;•&nbsp; 6 hours ago &nbsp;🔥 Trending
+            </div>
+            <div class="dsg-reddit-awards">
+              <span class="dsg-reddit-award">🏅 x14</span>
+              <span class="dsg-reddit-award">⭐ x8</span>
+              <span class="dsg-reddit-award">🥇 x3</span>
+              <span class="dsg-reddit-award">💎 x1</span>
+            </div>
+            <div class="dsg-reddit-post-title" onclick="stealthPress()">
+              AITA for correcting my girlfriend's professor in front of the whole class? She was embarrassed but I was just being accurate.
+            </div>
+            <div class="dsg-reddit-preview">
+              "The professor said something that I knew was technically incorrect, so I raised my hand and explained the right answer with sources. My girlfriend got upset and said I 'humiliated her' but I think if you're wrong you should be corrected, even if you have a PhD. My buddies agree with me but she hasn't spoken to me since..."
+            </div>
+            <div class="dsg-reddit-actions">
+              <button class="dsg-reddit-action comments" onclick="stealthPress()">💬 3,412 Comments</button>
+              <button class="dsg-reddit-action">↗ Share</button>
+              <button class="dsg-reddit-action">⭐ Save</button>
+              <button class="dsg-reddit-action">••• More</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>`
+  },
+  {
+    title: 'Alpha Male Quiz - BuzzFeed',
+    render: () => `
+    <div class="dsg-quiz">
+      <div class="dsg-quiz-header">
+        <div class="dsg-quiz-logo">Buzz<span>Feed</span></div>
+      </div>
+      <div class="dsg-quiz-body">
+        <div class="dsg-quiz-category">Quiz</div>
+        <div class="dsg-quiz-headline">Are You Actually An Alpha Male?</div>
+        <div class="dsg-quiz-subhead">Most men score higher than they think. Take the 60-second quiz to find out exactly where you rank — and what it says about how you see the world.</div>
+        <div class="dsg-quiz-stats">
+          <div><strong>2.8M</strong>completions</div>
+          <div><strong>4.6★</strong>rated</div>
+          <div><strong>60 sec</strong>avg time</div>
+        </div>
+        <div class="dsg-quiz-preview">
+          <div class="dsg-quiz-preview-q">Preview question: When someone is wrong, you...</div>
+          <div class="dsg-quiz-preview-opts">
+            <div class="dsg-quiz-preview-opt">A. Correct them immediately — truth matters</div>
+            <div class="dsg-quiz-preview-opt">B. Gently bring it up later</div>
+            <div class="dsg-quiz-preview-opt">C. Let it go — not worth it</div>
+          </div>
+        </div>
+        <button class="dsg-quiz-start" onclick="stealthPress()">Start Quiz →</button>
+        <div class="dsg-quiz-note">No sign-up required. Results are instant.</div>
+      </div>
+    </div>`
+  },
+  {
+    title: 'Stock Market YouTube',
+    render: () => `
+    <div class="dsg-yt">
+      <div class="dsg-yt-header">
+        <div class="dsg-yt-logo">▶<span>ouTube</span></div>
+        <div class="dsg-yt-search">
+          <input type="text" value="explaining stock market girlfriend reaction" readonly>
+          <button>🔍</button>
+        </div>
+      </div>
+      <div class="dsg-yt-body">
+        <div class="dsg-yt-player" onclick="stealthPress()">
+          <div class="dsg-yt-playbtn"></div>
+          <div class="dsg-yt-badge">22:47</div>
+        </div>
+        <div class="dsg-yt-title" onclick="stealthPress()">I tried to explain the stock market to my girlfriend (she didn't get it)</div>
+        <div class="dsg-yt-channel">
+          <div class="dsg-yt-avatar">FB</div>
+          <div>
+            <div style="font-weight:600;font-size:0.88rem;">FinanceBro</div>
+            <div style="color:#606060;font-size:0.78rem;">892K subscribers</div>
+          </div>
+          <button class="dsg-yt-sub-btn">Subscribe</button>
+        </div>
+        <div style="font-size:0.82rem;color:#606060;margin-bottom:6px;">1.2M views &nbsp;•&nbsp; 2 weeks ago</div>
+        <div class="dsg-yt-actions">
+          <button class="dsg-yt-action-btn">👍 94K</button>
+          <button class="dsg-yt-action-btn">👎</button>
+          <button class="dsg-yt-action-btn">↗ Share</button>
+          <button class="dsg-yt-action-btn">+ Save</button>
+        </div>
+        <div class="dsg-yt-related">
+          <div class="dsg-yt-related-title">Up next</div>
+          <div class="dsg-yt-thumb-row">
+            <div class="dsg-yt-thumb-mini"></div>
+            <div class="dsg-yt-thumb-info"><strong>Explaining crypto to my mom (part 3 — she still doesn't get it)</strong>FinanceBro • 780K views • 1 month ago</div>
+          </div>
+        </div>
+      </div>
+    </div>`
+  },
+];
+
+function toggleStealth() {
+  if (stealthActive) {
+    exitStealth();
+  } else {
+    enterStealth();
+  }
+}
+
+function enterStealth() {
+  stealthActive = true;
+  stealthToggle.classList.add('active');
+
+  // Pick a disguise (no repeats)
+  let idx;
+  do { idx = Math.floor(Math.random() * DISGUISES.length); } while (idx === lastDisguiseIdx && DISGUISES.length > 1);
+  lastDisguiseIdx = idx;
+
+  stealthContent.innerHTML = DISGUISES[idx].render();
+  document.title = DISGUISES[idx].title;
+
+  // Update URL
+  const url = new URL(window.location);
+  url.searchParams.set('stealth', '1');
+  window.history.replaceState({}, '', url);
+
+  stealthOverlay.classList.add('visible');
+}
+
+function exitStealth() {
+  stealthActive = false;
+  stealthToggle.classList.remove('active');
+  stealthOverlay.classList.remove('visible');
+  document.title = 'Mansplain Away';
+
+  const url = new URL(window.location);
+  url.searchParams.delete('stealth');
+  window.history.replaceState({}, '', url);
+}
+
+function stealthPress() {
+  exitStealth();
+  setTimeout(() => handlePress(), 150);
+}
+
+// Restore stealth from URL on load
+if (new URLSearchParams(window.location.search).get('stealth') === '1') {
+  enterStealth();
 }
 </script>
 </body>

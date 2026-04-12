@@ -1,45 +1,37 @@
-export default async function handler(req, res) {
+const COMEBACKS = [
+  "Wow, I had no idea you were an expert on literally everything - when did you get that degree?",
+  "Oh wow, I never would have figured that out without a man to explain it to me.",
+  "Oh wow, I never would have thought of that obvious solution myself, thank you so much for enlightening me.",
+  "That's so interesting, I actually have a PhD in this but please, go on.",
+  "Thank you for simplifying that. I was really struggling with the concept of existing.",
+  "I'm sorry, I must have left my 'please explain this to me' sign on by accident.",
+  "Oh I see, so THAT'S what words mean. Thank you.",
+  "You must be exhausted carrying around all that unsolicited expertise.",
+  "Bold of you to assume I've never encountered a fact before.",
+  "Sorry, I zoned out — were you still explaining, or did you just finish saving my life?",
+  "Fascinating. My therapist is going to love hearing about this moment.",
+  "Wow. You're like Wikipedia but way more confident and way less accurate.",
+  "I genuinely cannot tell if you're being helpful or if this is a bit.",
+  "Please, keep going. I'm writing a book called 'Things I Did Not Ask For.'",
+  "Thank you. I'll file that under 'information that was not requested.'",
+  "Do you do this for everyone or am I just lucky?",
+  "The confidence! The range! The complete lack of being asked!",
+  "I have a masters degree in this but sure, what were you saying?",
+  "Oh thank god you were here. I was just about to figure it out myself.",
+  "Wow, you're so brave for explaining this to someone who didn't ask.",
+];
+
+export default function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const apiKey = process.env.ANTHROPIC_API_KEY;
-  if (!apiKey) {
-    return res.status(500).json({ error: 'API key not configured' });
-  }
+  res.setHeader('Cache-Control', 'no-store');
 
-  try {
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': apiKey,
-        'anthropic-version': '2023-06-01',
-      },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 100,
-        system: `You generate short, petty, savage one-liner comebacks for a woman to say out loud when a man is mansplaining something to her. The comeback should be:
-- Cutting and witty, not aggressive or mean-spirited
-- Sarcastic but deniable ("I could have meant that nicely")
-- Under 25 words
-- Varied — rotate between: feigning ignorance sarcastically, pointing out the obvious, questioning his credentials, politely implying he should stop, or a deadpan burn
-- No hashtags, no emojis, no quotes around the response, no preamble. Just the line itself.`,
-        messages: [{ role: 'user', content: 'Give me one comeback.' }],
-      }),
-    });
+  // Pick randomly but never repeat the last one
+  const last = req.body?.last ?? -1;
+  let idx;
+  do { idx = Math.floor(Math.random() * COMEBACKS.length); } while (idx === last && COMEBACKS.length > 1);
 
-    if (!response.ok) {
-      const err = await response.json().catch(() => ({}));
-      return res.status(response.status).json({ error: err.error?.message || 'API error' });
-    }
-
-    const data = await response.json();
-    const text = data.content?.find(b => b.type === 'text')?.text?.trim();
-    if (!text) return res.status(500).json({ error: 'Empty response' });
-
-    return res.status(200).json({ text });
-  } catch (e) {
-    return res.status(500).json({ error: 'Internal server error' });
-  }
+  return res.status(200).json({ text: COMEBACKS[idx], idx });
 }
