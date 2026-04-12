@@ -1074,8 +1074,8 @@ h1 {
 <div class="theme-switcher">
   <span class="theme-label">Theme:</span>
   <select class="theme-select" id="themePicker" onchange="setTheme(this.value)">
-    <option value="retro">🌸 Retro</option>
     <option value="dark">🖤 Dark</option>
+    <option value="retro">🌸 Retro</option>
     <option value="pastel">💜 Pastel</option>
     <option value="y2k">💾 Y2K</option>
   </select>
@@ -1114,7 +1114,7 @@ h1 {
 const COOLDOWN_MS = 2000;
 const STORAGE_KEY = 'mansplain_count';
 const STORAGE_DATE_KEY = 'mansplain_date';
-const THEMES = ['retro', 'dark', 'pastel', 'y2k'];
+const THEMES = ['dark', 'retro', 'pastel', 'y2k'];
 
 const COMEBACKS = [
   "Wow, I had no idea you were an expert on literally everything - when did you get that degree?",
@@ -1166,11 +1166,11 @@ const gotchaFlash = document.getElementById('gotchaFlash');
 function getThemeFromURL() {
   const params = new URLSearchParams(window.location.search);
   const t = params.get('theme');
-  return THEMES.includes(t) ? t : 'retro';
+  return THEMES.includes(t) ? t : 'dark';
 }
 
 function setTheme(theme) {
-  if (!THEMES.includes(theme)) theme = 'retro';
+  if (!THEMES.includes(theme)) theme = 'dark';
   document.body.setAttribute('data-theme', theme);
   themePicker.value = theme;
   const url = new URL(window.location);
@@ -1499,13 +1499,17 @@ function toggleStealth() {
   }
 }
 
-function enterStealth() {
+function enterStealth(forceIdx) {
   stealthActive = true;
   stealthToggle.classList.add('active');
 
-  // Pick a disguise (no repeats)
+  // Use forced index if provided, else pick randomly (no repeats)
   let idx;
-  do { idx = Math.floor(Math.random() * DISGUISES.length); } while (idx === lastDisguiseIdx && DISGUISES.length > 1);
+  if (forceIdx !== undefined && forceIdx >= 0 && forceIdx < DISGUISES.length) {
+    idx = forceIdx;
+  } else {
+    do { idx = Math.floor(Math.random() * DISGUISES.length); } while (idx === lastDisguiseIdx && DISGUISES.length > 1);
+  }
   lastDisguiseIdx = idx;
 
   stealthContent.innerHTML = DISGUISES[idx].render();
@@ -1514,6 +1518,7 @@ function enterStealth() {
   // Update URL
   const url = new URL(window.location);
   url.searchParams.set('stealth', '1');
+  url.searchParams.set('disguise', idx);
   window.history.replaceState({}, '', url);
 
   stealthOverlay.classList.add('visible');
@@ -1527,6 +1532,7 @@ function exitStealth() {
 
   const url = new URL(window.location);
   url.searchParams.delete('stealth');
+  url.searchParams.delete('disguise');
   window.history.replaceState({}, '', url);
 }
 
@@ -1536,8 +1542,10 @@ function stealthPress() {
 }
 
 // Restore stealth from URL on load
-if (new URLSearchParams(window.location.search).get('stealth') === '1') {
-  enterStealth();
+const _initParams = new URLSearchParams(window.location.search);
+if (_initParams.get('stealth') === '1') {
+  const _initDisguise = _initParams.get('disguise');
+  enterStealth(_initDisguise !== null ? parseInt(_initDisguise, 10) : undefined);
 }
 </script>
 </body>
