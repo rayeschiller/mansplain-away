@@ -362,6 +362,7 @@ h1 {
   color: var(--card-text);
 }
 
+
 /* ── DOTS ────────────────────────────────────────── */
 
 .loading-dots { display: flex; gap: 6px; align-items: center; padding: 6px 0; }
@@ -419,6 +420,21 @@ h1 {
 .tip-btn:hover { color: var(--tip-hover); }
 
 /* ── STEALTH TOGGLE ──────────────────────────────── */
+
+.mode-toggle {
+  position: fixed;
+  top: 1rem;
+  right: 3.5rem;
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  cursor: pointer;
+  opacity: 0.35;
+  line-height: 1;
+  padding: 4px;
+}
+.mode-toggle:hover { opacity: 0.7; }
+.mode-toggle.active { opacity: 1; }
 
 .stealth-toggle {
   position: fixed;
@@ -1099,6 +1115,9 @@ h1 {
 
 <a class="tip-btn" href="https://venmo.com/u/raye-schiller" target="_blank" rel="noopener">💸 tip the creator</a>
 
+<!-- Mode toggle (random vs repeat) -->
+<button class="mode-toggle" id="modeToggle" onclick="toggleRepeatMode()" title="Switch between random and repeat">🔀</button>
+
 <!-- Stealth toggle (subtle, top-right corner) -->
 <button class="stealth-toggle" id="stealthToggle" onclick="toggleStealth()" title="Stealth mode">🥷</button>
 
@@ -1115,6 +1134,20 @@ const COOLDOWN_MS = 2000;
 const STORAGE_KEY = 'mansplain_count';
 const STORAGE_DATE_KEY = 'mansplain_date';
 const THEMES = ['dark', 'retro', 'pastel', 'y2k'];
+
+const DARK_COMEBACKS = [
+  "So your mom never loved you, huh.",
+  "You have a face only a mother could tolerate.",
+  "I hope one day you find what you're looking for in the mirror and it deeply disappoints you.",
+  "You remind me of a before picture.",
+  "There's a special seat in hell reserved for you and it faces the wall.",
+];
+
+const DARKER_COMEBACKS = [
+    "You will die a slow and painful death",
+    "You will never find love",
+    "You will have a girlfriend one day... and she will murder you.",
+]
 
 const COMEBACKS = [
   "Wow, I had no idea you were an expert on literally everything - when did you get that degree?",
@@ -1141,10 +1174,46 @@ const COMEBACKS = [
 
 let isLoading = false;
 let lastIdx = -1;
+let lastDarkIdx = -1;
+let lastDarkerIdx = -1;
+let sessionPresses = 0;
+let lastText = null;
+let repeatMode = false;
 let stealthActive = false;
 let lastDisguiseIdx = -1;
 
+// ?mode=dark or ?mode=darker forces starting tier
+const _modeParam = new URLSearchParams(window.location.search).get('mode');
+if (_modeParam === 'darker') sessionPresses = 6;
+else if (_modeParam === 'dark') sessionPresses = 4;
+
+function currentMode() {
+  if (sessionPresses > 5) return 'darker';
+  if (sessionPresses > 3) return 'dark';
+  return null;
+}
+
+function syncModeParam() {
+  const mode = currentMode();
+  const url = new URL(window.location);
+  if (mode) url.searchParams.set('mode', mode);
+  else url.searchParams.delete('mode');
+  window.history.replaceState({}, '', url);
+}
+
 function pickComeback() {
+  if (sessionPresses > 5) {
+    let idx;
+    do { idx = Math.floor(Math.random() * DARKER_COMEBACKS.length); } while (idx === lastDarkerIdx && DARKER_COMEBACKS.length > 1);
+    lastDarkerIdx = idx;
+    return DARKER_COMEBACKS[idx];
+  }
+  if (sessionPresses > 3) {
+    let idx;
+    do { idx = Math.floor(Math.random() * DARK_COMEBACKS.length); } while (idx === lastDarkIdx && DARK_COMEBACKS.length > 1);
+    lastDarkIdx = idx;
+    return DARK_COMEBACKS[idx];
+  }
   let idx;
   do { idx = Math.floor(Math.random() * COMEBACKS.length); } while (idx === lastIdx && COMEBACKS.length > 1);
   lastIdx = idx;
@@ -1157,6 +1226,7 @@ const output = document.getElementById('output');
 const counterEl = document.getElementById('counter');
 const btnWrap = document.getElementById('btnWrap');
 const themePicker = document.getElementById('themePicker');
+const modeToggle = document.getElementById('modeToggle');
 const stealthToggle = document.getElementById('stealthToggle');
 const stealthOverlay = document.getElementById('stealthOverlay');
 const stealthContent = document.getElementById('stealthContent');
@@ -1271,6 +1341,8 @@ function handlePress() {
   btn.classList.add('pressed');
   setTimeout(() => btn.classList.remove('pressed'), 200);
 
+  sessionPresses++;
+  syncModeParam();
   spawnSparks();
   shakeButton();
   playBuzzer();
@@ -1279,7 +1351,8 @@ function handlePress() {
   card.classList.add('show');
   output.innerHTML = '<div class="loading-dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>';
 
-  const text = pickComeback();
+  const text = (repeatMode && lastText) ? lastText : pickComeback();
+  lastText = text;
   output.innerHTML = `<span class="comeback-text">"${text}"</span>`;
   speakText(text);
 
@@ -1534,6 +1607,12 @@ function exitStealth() {
   url.searchParams.delete('stealth');
   url.searchParams.delete('disguise');
   window.history.replaceState({}, '', url);
+}
+
+function toggleRepeatMode() {
+  repeatMode = !repeatMode;
+  modeToggle.textContent = repeatMode ? '🔁' : '🔀';
+  modeToggle.classList.toggle('active', repeatMode);
 }
 
 function stealthPress() {
