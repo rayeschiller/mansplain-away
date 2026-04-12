@@ -322,6 +322,15 @@ h1 {
 
 .counter-num.bump { transform: scale(1.5) rotate(-5deg); }
 
+.escalation-hint {
+  font-family: var(--body-font);
+  font-size: 0.72rem;
+  opacity: 0.45;
+  color: var(--counter-text);
+  min-height: 1.2em;
+  margin-bottom: 1.4rem;
+}
+
 /* ── CARD ────────────────────────────────────────── */
 
 .card {
@@ -1107,6 +1116,7 @@ h1 {
   <span class="counter-label">Times today:</span>
   <span class="counter-num" id="counter">0</span>
 </div>
+<div class="escalation-hint" id="escalationHint"></div>
 
 <div class="card" id="card">
   <div class="card-label">Say this back:</div>
@@ -1146,7 +1156,7 @@ const DARK_COMEBACKS = [
 const DARKER_COMEBACKS = [
     "You will die a slow and painful death",
     "You will never find love",
-    "You will have a girlfriend one day...         and she will murder you.",
+    "You will have a girlfriend one day...         and she will be the cause of your slow and painful death.",
 ]
 
 const COMEBACKS = [
@@ -1199,6 +1209,19 @@ function syncModeParam() {
   if (mode) url.searchParams.set('mode', mode);
   else url.searchParams.delete('mode');
   window.history.replaceState({}, '', url);
+}
+
+function updateEscalationHint() {
+  const el = document.getElementById('escalationHint');
+  if (!el) return;
+  if (sessionPresses < 2 || sessionPresses > 5) { el.textContent = ''; return; }
+  if (sessionPresses > 3) {
+    const left = 6 - sessionPresses;
+    el.textContent = `${left} more until it gets even darker`;
+  } else {
+    const left = 4 - sessionPresses;
+    el.textContent = `${left} more until it gets dark`;
+  }
 }
 
 function pickComeback() {
@@ -1343,6 +1366,7 @@ function handlePress() {
 
   sessionPresses++;
   syncModeParam();
+  updateEscalationHint();
   spawnSparks();
   shakeButton();
   playBuzzer();
@@ -1619,6 +1643,9 @@ function stealthPress() {
   exitStealth();
   setTimeout(() => handlePress(), 150);
 }
+
+// Init on load
+updateEscalationHint();
 
 // Restore stealth from URL on load
 const _initParams = new URLSearchParams(window.location.search);
