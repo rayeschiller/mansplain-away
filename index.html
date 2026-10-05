@@ -1121,6 +1121,7 @@ h1 {
 <div class="card" id="card">
   <div class="card-label">Say this back:</div>
   <div id="output"></div>
+  <small>AI-generated voice</small>
 </div>
 
 <a class="tip-btn" href="https://venmo.com/u/raye-schiller" target="_blank" rel="noopener">💸 tip the creator</a>
@@ -1139,6 +1140,7 @@ h1 {
 <!-- Gotcha flash -->
 <div class="gotcha-flash" id="gotchaFlash">😂</div>
 
+<script src="audio/clips.js"></script>
 <script>
 const COOLDOWN_MS = 2000;
 const DARK_PRESS = 3;
@@ -1353,7 +1355,29 @@ async function playBuzzer() {
 // Start voice discovery at page load; an empty list still allows default speech.
 if ('speechSynthesis' in window) window.speechSynthesis.getVoices();
 
+let comebackAudio = null;
+let playbackVersion = 0;
+
 function speakText(text) {
+  const version = ++playbackVersion;
+  if (comebackAudio) {
+    comebackAudio.pause();
+    comebackAudio = null;
+  }
+  if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+  const clip = window.COMEBACK_AUDIO?.[text];
+  if (clip) {
+    const audio = new Audio(clip);
+    comebackAudio = audio;
+    audio.play().catch(() => {
+      if (version === playbackVersion) speakBrowserText(text);
+    });
+    return;
+  }
+  speakBrowserText(text);
+}
+
+function speakBrowserText(text) {
   if (!('speechSynthesis' in window)) return;
   const synth = window.speechSynthesis;
   synth.cancel();

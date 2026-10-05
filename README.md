@@ -133,3 +133,17 @@ Or just open `index.html` directly in a browser — everything except the server
 ## License
 
 MIT
+
+
+## Pre-generated voice clips
+
+Run `node scripts/generate-audio.mjs --check` to validate the comeback list.
+With `OPENAI_API_KEY` set locally, run `node scripts/generate-audio.mjs` to generate
+all 28 MP3 clips using the Marin voice with sarcastic conversational delivery.
+Generation incurs API usage charges. The key stays local and is never needed by
+the deployed site. Interrupted runs reuse completed clips. The playback manifest
+is written only after all clips succeed. Listen to the clips before publishing.
+
+The button plays a matching clip immediately, with browser speech as a fallback
+if clips are unavailable or playback fails. Commit `audio/` along with the app
+when the clips have been generated and reviewed.
