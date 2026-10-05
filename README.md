@@ -56,7 +56,7 @@ The main button is a 190px circle with a rotating gradient ring (CSS `@keyframes
 The comeback appears in a card below the button with a fade-in animation. The card is hidden at page load and shown on first press.
 
 ### Stealth Mode
-Clicking the ninja button (top-right corner) swaps the entire visible UI for a full-screen fake interface. There are 5 disguise options (randomly selected each session):
+Clicking the ninja button (top-right corner) swaps the entire visible UI for a full-screen fake interface. For the sketch, stealth mode always opens **#2187 – Elon Musk & Jordan Peterson**, with locally stored generated podcast cover art. Older `disguise` URL values are overridden. The other disguise templates remain in the source:
 - YouTube video page (two variants)
 - Spotify podcast player
 - Reddit post thread

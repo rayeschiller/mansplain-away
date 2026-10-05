@@ -711,6 +711,7 @@ h1 {
   margin-bottom: 1.5rem;
 }
 .dsg-pod-art {
+  object-fit: cover;
   width: 130px;
   height: 130px;
   border-radius: 8px;
@@ -1194,7 +1195,7 @@ let sessionPresses = 0;
 let lastText = null;
 let repeatMode = false;
 let stealthActive = false;
-let lastDisguiseIdx = -1;
+const STEALTH_DISGUISE_INDEX = 1;
 
 // ?mode=dark or ?mode=darker forces starting tier
 const _modeParam = new URLSearchParams(window.location.search).get('mode');
@@ -1475,7 +1476,7 @@ const DISGUISES = [
       </div>
       <div class="dsg-pod-body">
         <div class="dsg-pod-art-row">
-          <div class="dsg-pod-art">🎙️</div>
+          <img class="dsg-pod-art" src="images/stealth-podcast-cover.png" alt="Joe Rogan, Elon Musk and Jordan Peterson in a podcast studio" width="130" height="130">
           <div class="dsg-pod-info">
             <div class="dsg-pod-show">The Joe Rogan Experience</div>
             <div class="dsg-pod-ep-title">#2187 – Elon Musk & Jordan Peterson</div>
@@ -1631,18 +1632,10 @@ function toggleStealth() {
   }
 }
 
-function enterStealth(forceIdx) {
+function enterStealth() {
   stealthActive = true;
   stealthToggle.classList.add('active');
-
-  // Use forced index if provided, else pick randomly (no repeats)
-  let idx;
-  if (forceIdx !== undefined && forceIdx >= 0 && forceIdx < DISGUISES.length) {
-    idx = forceIdx;
-  } else {
-    do { idx = Math.floor(Math.random() * DISGUISES.length); } while (idx === lastDisguiseIdx && DISGUISES.length > 1);
-  }
-  lastDisguiseIdx = idx;
+  const idx = STEALTH_DISGUISE_INDEX;
 
   stealthContent.innerHTML = DISGUISES[idx].render();
   document.title = DISGUISES[idx].title;
@@ -1685,8 +1678,7 @@ updateEscalationHint();
 // Restore stealth from URL on load
 const _initParams = new URLSearchParams(window.location.search);
 if (_initParams.get('stealth') === '1') {
-  const _initDisguise = _initParams.get('disguise');
-  enterStealth(_initDisguise !== null ? parseInt(_initDisguise, 10) : undefined);
+  enterStealth();
 }
 </script>
 </body>
