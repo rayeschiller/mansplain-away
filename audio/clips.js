@@ -20,7 +20,7 @@ window.COMEBACK_AUDIO = {
   "Oh thank god you were here. I was just about to figure it out myself.": "audio/b01a0bedd57a5417802d2fa0.mp3",
   "Wow, you're so brave for explaining this to someone who didn't ask.": "audio/eb9dd8491633c98368e9caea.mp3",
   "So your dad never loved you, huh.": "audio/afed6785f048d4ceba07608c.mp3",
-  "You have a face only a mother could tolerate.": "audio/49f242d6149c8ba522efaa75.mp3",
+  "You have a face only a mother could tolerate.": "audio/0b53fae3308c8a3d50fc44e9.mp3",
   "I hope one day you find what you're looking for in the mirror and it deeply disappoints you.": "audio/31ef753fd45b8a6502c679b2.mp3",
   "You remind me of a before picture.": "audio/9a963bd56d7c4359844f6593.mp3",
   "There's a special seat in hell reserved for you and it faces the wall.": "audio/228bec0ececfae1d01b8f037.mp3",

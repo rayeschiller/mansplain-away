@@ -243,7 +243,6 @@ h1 {
   border-radius: 50%;
   background: repeating-conic-gradient(var(--ring-a) 0deg 20deg, var(--ring-b) 20deg 40deg);
   z-index: 0;
-  animation: spin-slow 12s linear infinite;
 }
 
 .ring-inner {
@@ -1122,7 +1121,6 @@ h1 {
 <div class="card" id="card">
   <div class="card-label">Say this back:</div>
   <div id="output"></div>
-  <small>AI-generated voice</small>
 </div>
 
 <a class="tip-btn" href="https://venmo.com/u/raye-schiller" target="_blank" rel="noopener">💸 tip the creator</a>
@@ -1383,7 +1381,7 @@ function speakBrowserText(text) {
   const synth = window.speechSynthesis;
   synth.cancel();
   const utt = new SpeechSynthesisUtterance(text);
-  utt.rate = 0.95;
+  utt.rate = 1.25;
   utt.pitch = 1.1;
   const voices = synth.getVoices();
   const femVoice = voices.find(v => /female|woman|zira|samantha|victoria|karen|moira|tessa|fiona/i.test(v.name));

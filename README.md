@@ -139,7 +139,10 @@ MIT
 
 Run `node scripts/generate-audio.mjs --check` to validate the comeback list.
 With `OPENAI_API_KEY` set locally, run `node scripts/generate-audio.mjs` to generate
-all 28 MP3 clips using the Marin voice with sarcastic conversational delivery.
+all 28 MP3 clips using the Coral voice at 1.25× speed with brisk, sarcastic delivery.
+The current set retains Marin for 27 lines; only “You have a face only a mother
+could tolerate.” uses the faster Coral voice. Use `--text "exact comeback"` to
+regenerate one clip while preserving the others.
 Generation incurs API usage charges. The key stays local and is never needed by
 the deployed site. Interrupted runs reuse completed clips. The playback manifest
 is written only after all clips succeed. Listen to the clips before publishing.
