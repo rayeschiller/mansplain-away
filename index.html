@@ -1141,6 +1141,8 @@ h1 {
 
 <script>
 const COOLDOWN_MS = 2000;
+const DARK_PRESS = 3;
+const DARKER_PRESS = 6;
 const STORAGE_KEY = 'mansplain_count';
 const STORAGE_DATE_KEY = 'mansplain_date';
 const THEMES = ['dark', 'retro', 'pastel', 'y2k'];
@@ -1194,12 +1196,12 @@ let lastDisguiseIdx = -1;
 
 // ?mode=dark or ?mode=darker forces starting tier
 const _modeParam = new URLSearchParams(window.location.search).get('mode');
-if (_modeParam === 'darker') sessionPresses = 6;
-else if (_modeParam === 'dark') sessionPresses = 4;
+if (_modeParam === 'darker') sessionPresses = DARKER_PRESS;
+else if (_modeParam === 'dark') sessionPresses = DARK_PRESS;
 
 function currentMode() {
-  if (sessionPresses > 5) return 'darker';
-  if (sessionPresses > 3) return 'dark';
+  if (sessionPresses >= DARKER_PRESS) return 'darker';
+  if (sessionPresses >= DARK_PRESS) return 'dark';
   return null;
 }
 
@@ -1214,24 +1216,24 @@ function syncModeParam() {
 function updateEscalationHint() {
   const el = document.getElementById('escalationHint');
   if (!el) return;
-  if (sessionPresses < 2 || sessionPresses > 5) { el.textContent = ''; return; }
-  if (sessionPresses > 3) {
-    const left = 6 - sessionPresses;
+  if (sessionPresses < 2 || sessionPresses >= DARKER_PRESS) { el.textContent = ''; return; }
+  if (sessionPresses >= DARK_PRESS) {
+    const left = DARKER_PRESS - sessionPresses;
     el.textContent = `${left} more until it gets even darker`;
   } else {
-    const left = 4 - sessionPresses;
+    const left = DARK_PRESS - sessionPresses;
     el.textContent = `${left} more until it gets dark`;
   }
 }
 
 function pickComeback() {
-  if (sessionPresses > 5) {
+  if (sessionPresses >= DARKER_PRESS) {
     let idx;
     do { idx = Math.floor(Math.random() * DARKER_COMEBACKS.length); } while (idx === lastDarkerIdx && DARKER_COMEBACKS.length > 1);
     lastDarkerIdx = idx;
     return DARKER_COMEBACKS[idx];
   }
-  if (sessionPresses > 3) {
+  if (sessionPresses >= DARK_PRESS) {
     let idx;
     do { idx = Math.floor(Math.random() * DARK_COMEBACKS.length); } while (idx === lastDarkIdx && DARK_COMEBACKS.length > 1);
     lastDarkIdx = idx;
@@ -1325,9 +1327,14 @@ function shakeButton() {
   btnWrap.addEventListener('animationend', () => btnWrap.classList.remove('shaking'), { once: true });
 }
 
-function playBuzzer() {
+let audioContext;
+
+async function playBuzzer() {
   try {
-    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    audioContext ||= new (window.AudioContext || window.webkitAudioContext)();
+    const ctx = audioContext;
+    // Resume during the button gesture before scheduling the sound.
+    if (ctx.state === 'suspended') await ctx.resume();
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
     osc.connect(gain);
@@ -1337,23 +1344,27 @@ function playBuzzer() {
     osc.frequency.linearRampToValueAtTime(90, ctx.currentTime + 0.35);
     gain.gain.setValueAtTime(0.28, ctx.currentTime);
     gain.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.4);
+    osc.onended = () => { osc.disconnect(); gain.disconnect(); };
     osc.start(ctx.currentTime);
     osc.stop(ctx.currentTime + 0.4);
   } catch(e) {}
 }
 
+// Start voice discovery at page load; an empty list still allows default speech.
+if ('speechSynthesis' in window) window.speechSynthesis.getVoices();
+
 function speakText(text) {
-  speechSynthesis.cancel();
+  if (!('speechSynthesis' in window)) return;
+  const synth = window.speechSynthesis;
+  synth.cancel();
   const utt = new SpeechSynthesisUtterance(text);
   utt.rate = 0.95;
   utt.pitch = 1.1;
-  const trySpeak = () => {
-    const voices = speechSynthesis.getVoices();
-    const femVoice = voices.find(v => /female|woman|zira|samantha|victoria|karen|moira|tessa|fiona/i.test(v.name));
-    if (femVoice) utt.voice = femVoice;
-    speechSynthesis.speak(utt);
-  };
-  speechSynthesis.getVoices().length ? trySpeak() : speechSynthesis.addEventListener('voiceschanged', trySpeak, { once: true });
+  const voices = synth.getVoices();
+  const femVoice = voices.find(v => /female|woman|zira|samantha|victoria|karen|moira|tessa|fiona/i.test(v.name));
+  if (femVoice) utt.voice = femVoice;
+  // Speak in the click handler, even while voices are still loading.
+  synth.speak(utt);
 }
 
 function handlePress() {
@@ -1641,7 +1652,7 @@ function toggleRepeatMode() {
 
 function stealthPress() {
   exitStealth();
-  setTimeout(() => handlePress(), 150);
+  handlePress();
 }
 
 // Init on load
