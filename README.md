@@ -150,3 +150,17 @@ is written only after all clips succeed. Listen to the clips before publishing.
 The button plays a matching clip immediately, with browser speech as a fallback
 if clips are unavailable or playback fails. Commit `audio/` along with the app
 when the clips have been generated and reviewed.
+
+
+## Filming demo
+
+Open `demo.html` to choose one of the six script cues. The selected filming
+link replays the same prerecorded clip on every tap with a fixed theme and
+no counters, escalation, buzzer, or animation. Reload the incognito cue to
+reset its podcast reveal between takes. Girlfriend setup and payoff are
+separate cues for reaction timing. The podcast-bro performance is an original
+voice, not a celebrity clone. Demo recordings live in `audio/demo-clips.js`.
+
+Filming voices: Coral at 1.3× for the four comic cues; Onyx at 1.1×
+with a horror performance for the dark cue and final payoff. Regenerate
+only a changed cue with `node scripts/generate-demo-audio.mjs --cue sign`.
